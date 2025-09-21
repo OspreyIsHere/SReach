@@ -58,6 +58,12 @@
 	worn_y_dimension = 64
 	sewrepair = TRUE
 
+/obj/item/clothing/head/roguetown/spellcasterhat/light
+	name = "tattered spellsinger hat"	//meant to be a weaker version you can spawn with in the loadout menu
+	desc = "Despite most universities toilings, you cannot eat magic. This well-worn hat's sorry state is a silent reminder that all schools of the arcyne yet still bow their head to the power of cold, hard mammon."
+	prevent_crits = list(BCLASS_CUT, BCLASS_BLUNT)
+	armor = ARMOR_HEAD_BAD //good head armour is harder to procure than body protection
+
 /obj/item/clothing/head/roguetown/roguehood/MiddleClick(mob/user)
 	overarmor = !overarmor
 	to_chat(user, span_info("I [overarmor ? "wear \the [src] under my hair" : "wear \the [src] over my hair"]."))
@@ -193,6 +199,11 @@
 	item_state = "heavyhood"
 	icon_state = "heavyhood"
 	hidesnoutADJ = FALSE
+
+/obj/item/clothing/head/roguetown/roguehood/shalal/hijab/yoruku
+	name = "shadowed hood"
+	desc = "It sits just so, obscuring the face just enough to spoil recognition."
+	color = CLOTHING_BLACK
 
 /obj/item/clothing/neck/roguetown/roguehood/shalal/heavyhood/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, NECK, null, null, null, null, (UPD_HEAD|UPD_MASK|UPD_NECK))
@@ -335,6 +346,15 @@
 /obj/item/clothing/head/roguetown/roguehood/mage/Initialize()
 	color = pick("#4756d8", "#759259", "#bf6f39", "#c1b144", "#b8252c")
 	..()
+
+
+/obj/item/clothing/head/roguetown/dungeoneer
+	name = "sack hood"
+	desc = "A hood commonly worn by executioners to hide their face; The stigma of such a role, and all the grisly work it entails, makes many executioners outcasts in their own right."
+	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT	
+	dynamic_hair_suffix = ""
+	icon_state = "dungeoneer"
+	sewrepair = TRUE
 
 /obj/item/clothing/head/roguetown/menacing
 	name = "sack hood"
@@ -815,6 +835,17 @@
 	smeltresult = /obj/item/ingot/steel
 	body_parts_covered = HEAD|HAIR|EARS
 
+/obj/item/clothing/head/roguetown/helmet/sallet/beastskull
+	name = "beast skull"
+	desc = "The skull of a horned beast, carved and fashioned into a helmet. An iron skull cap has been inserted on the inside."
+	icon_state = "marauder_head"
+	max_integrity = 280
+	smeltresult = /obj/item/ingot/iron
+	mob_overlay_icon = 'icons/roguetown/clothing/onmob/64x64/head.dmi'
+	worn_x_dimension = 64
+	worn_y_dimension = 64
+	bloody_icon = 'icons/effects/blood64.dmi'
+
 /obj/item/clothing/head/roguetown/helmet/sallet/attackby(obj/item/W, mob/living/user, params)
 	..()
 	if(istype(W, /obj/item/natural/cloth) && !detail_tag)
@@ -849,6 +880,13 @@
 	block2add = FOV_BEHIND
 	smelt_bar_num = 2
 	armor = ARMOR_HEAD_HELMET_VISOR
+
+/obj/item/clothing/head/roguetown/helmet/sallet/shishak
+	name = "steel shishak"
+	desc = "A flat decorated steel helmet of Aavnic make with a spike at the top end. A hanging layer of chainmail protects the sides of the head and even the neck."
+	body_parts_covered = HEAD|EARS|HAIR|NECK
+	max_integrity = ARMOR_INT_HELMET_STEEL + 50
+	icon_state = "shishak"
 
 /obj/item/clothing/head/roguetown/helmet/sallet/visored/ComponentInitialize()
 	AddComponent(/datum/component/adjustable_clothing, (HEAD|EARS|HAIR), HIDEHAIR, null, 'sound/items/visor.ogg', null, UPD_HEAD)	//Sallet. Does not hide anything when opened.
@@ -2338,6 +2376,8 @@
 	icon = 'icons/roguetown/clothing/special/captain.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/captain.dmi'
 	icon_state = "capbarbute"
+	block2add = FOV_BEHIND
+	max_integrity = 350
 	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDESNOUT
 
 /obj/item/clothing/head/roguetown/helmet/visored/captain/ComponentInitialize()

@@ -310,6 +310,8 @@
 
 	if(bpc & HEAD)
 		covered_parts |= list(READABLE_ZONE_HEAD)
+	if(bpc & HAIR)
+		covered_parts |= list(READABLE_ZONE_SKULL)
 	if(bpc & NECK)
 		covered_parts |= list(READABLE_ZONE_NECK)
 	if(bpc & FACE && !precise)
@@ -321,6 +323,8 @@
 			covered_parts |= list(READABLE_ZONE_NOSE)
 		if(bpc & EYES)
 			covered_parts |= list(READABLE_ZONE_EYES)
+		if(bpc & EARS)
+			covered_parts |= list(READABLE_ZONE_EARS)
 
 	if(bpc & CHEST)
 		covered_parts |= list(READABLE_ZONE_CHEST)
@@ -632,3 +636,30 @@
 			return null
 		r += ascii2text(c)
 	return r
+
+/// Returns a list(x, y), being the change in position required to step in the passed in direction
+/proc/dir2offset(dir)
+	switch(dir)
+		if(NORTH)
+			return list(0, 1)
+		if(SOUTH)
+			return list(0, -1)
+		if(EAST)
+			return list(1, 0)
+		if(WEST)
+			return list(-1, 0)
+		if(NORTHEAST)
+			return list(1, 1)
+		if(SOUTHEAST)
+			return list(1, -1)
+		if(NORTHWEST)
+			return list(-1, 1)
+		if(SOUTHWEST)
+			return list(-1, -1)
+		else
+			return list(0, 0)
+
+/// Return html to load a url.
+/// for use inside of browse() calls to html assets that might be loaded on a cdn.
+/proc/url2htmlloader(url)
+	return {"<html><head><meta http-equiv="refresh" content="0;URL='[url]'"/></head><body onLoad="parent.location='[url]'"></body></html>"}

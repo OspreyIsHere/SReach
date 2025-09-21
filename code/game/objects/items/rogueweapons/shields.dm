@@ -13,7 +13,6 @@
 	icon = 'icons/roguetown/weapons/32.dmi'
 	slot_flags = ITEM_SLOT_BACK
 	flags_1 = null
-	armor = ARMOR_SHIELD
 	force = 10
 	throwforce = 5
 	throw_speed = 1
@@ -30,9 +29,8 @@
 	var/coverage = 50
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
-	max_integrity = 150
-	blade_dulling = DULLING_SHAFT_WOOD
-	anvilrepair = /datum/skill/craft/weaponsmithing
+	max_integrity = 100
+	anvilrepair = /datum/skill/craft/carpentry
 	COOLDOWN_DECLARE(shield_bang)
 	pickup_sound = 'modular_helmsguard/sound/sheath_sounds/draw_shield.ogg'
 	sheathe_sound = 'modular_helmsguard/sound/sheath_sounds/put_back_shield.ogg'
@@ -165,11 +163,11 @@
 	throw_range = 3
 	wlength = WLENGTH_NORMAL
 	resistance_flags = FLAMMABLE
-	blade_dulling = DULLING_SHAFT_REINFORCED
 	wdefense = 10
 	coverage = 40
 	parrysound = list('sound/combat/parry/shield/towershield (1).ogg','sound/combat/parry/shield/towershield (2).ogg','sound/combat/parry/shield/towershield (3).ogg')
-	max_integrity = 200
+	max_integrity = 300
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/shield/tower/getonmobprop(tag)
 	. = ..()
@@ -197,7 +195,6 @@
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	max_integrity = 300
-	blade_dulling = DULLING_SHAFT_METAL
 	sellprice = 30
 	smeltresult = /obj/item/ingot/steel
 
@@ -247,7 +244,6 @@
 	desc = "A ancient, venerable shield. Aeon's grasp has been lifted from it."
 	icon_state = "ancientsh"
 	smeltresult = /obj/item/ingot/purifiedaalloy
-	blade_dulling = DULLING_SHAFT_METAL
 
 /obj/item/rogueweapon/shield/tower/raneshen
 	name = "rider shield"
@@ -257,7 +253,8 @@
 	force = 25
 	throwforce = 25 //for cosplaying captain raneshen
 	wdefense = 11
-	max_integrity = 250 //not fully metal but not fully wood either
+	max_integrity = 220 //not fully metal but not fully wood either
+	anvilrepair = /datum/skill/craft/carpentry
 
 /obj/item/rogueweapon/shield/tower/raneshen/getonmobprop(tag)
 	. = ..()
@@ -282,12 +279,12 @@
 	coverage = 10
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
-	max_integrity = 180
-	blade_dulling = DULLING_SHAFT_CONJURED
+	max_integrity = 120
 	associated_skill = /datum/skill/combat/shields
 	grid_width = 32
 	grid_height = 64
 	smeltresult = /obj/item/ingot/steel
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/shield/buckler/examine(mob/living/user)
 	. = ..()
@@ -359,8 +356,9 @@
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	possible_item_intents = list(SHIELD_SMASH_METAL, SHIELD_BLOCK) // No SHIELD_BASH. Too heavy to swing quickly, or something.
-	max_integrity = 200
+	max_integrity = 220
 	smeltresult = /obj/item/ingot/iron
+	anvilrepair = /datum/skill/craft/weaponsmithing
 
 /obj/item/rogueweapon/shield/iron/getonmobprop(tag)
 	. = ..()
@@ -372,6 +370,12 @@
 				return list("shrink" = 0.6,"sx" = 1,"sy" = 4,"nx" = 1,"ny" = 2,"wx" = 3,"wy" = 3,"ex" = 0,"ey" = 2,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 8,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 1,"southabove" = 0,"eastabove" = 0,"westabove" = 0)
 
 #undef SHIELD_BANG_COOLDOWN
+
+/obj/item/rogueweapon/shield/iron/steppesman
+	name = "steppesman shield"
+	desc = "A banded iron shield decorated with traditional Aavnic colours, often seen in the hands of the Steppesmen."
+	icon_state = "ironsh_steppeman"
+	max_integrity = 250 //+30
 
 /*/obj/item/rogueweapon/shield/buckler/freelancer
 	name = "fencer's wrap"
@@ -397,8 +401,7 @@
 	coverage = 10
 	attacked_sound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
 	parrysound = list('sound/combat/parry/shield/metalshield (1).ogg','sound/combat/parry/shield/metalshield (2).ogg','sound/combat/parry/shield/metalshield (3).ogg')
-	max_integrity = 215 // more integrity cuz blacksteel
-	blade_dulling = DULLING_SHAFT_METAL
+	max_integrity = 180 // more integrity cuz blacksteel
 	associated_skill = /datum/skill/combat/shields
 	grid_width = 32
 	grid_height = 64

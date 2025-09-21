@@ -80,6 +80,13 @@
 	salvage_amount = 2
 	salvage_result = /obj/item/natural/hide/cured
 
+/obj/item/clothing/shoes/roguetown/boots/nobleboot/steppesman
+	name = "aavnic riding boots"
+	desc = "A pair of sturdy riding boots with an iron heel and brass spurs."
+	armor = ARMOR_LEATHER_GOOD
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_BLUNT, BCLASS_TWIST)
+	max_integrity = ARMOR_INT_SIDE_HARDLEATHER
+
 /obj/item/clothing/shoes/roguetown/shortboots
 	name = "shortboots"
 	color = "#d5c2aa"
@@ -457,6 +464,9 @@
 	icon_state = "eastsandals"
 	item_state = "eastsandals"
 	sleeved = 'icons/roguetown/clothing/onmob/helpers/stonekeep_merc.dmi'
+	sewrepair = TRUE
+	prevent_crits = list(BCLASS_CUT, BCLASS_STAB, BCLASS_CHOP, BCLASS_BLUNT, BCLASS_TWIST)
+	max_integrity = 150
 	armor = ARMOR_BOOTS
 
 /obj/item/clothing/shoes/roguetown/boots/carapace

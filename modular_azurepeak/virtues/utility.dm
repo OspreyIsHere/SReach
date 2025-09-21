@@ -13,15 +13,8 @@
 /datum/virtue/utility/socialite
 	name = "Socialite"
 	desc = "I thrive in social settings, easily reading the emotions of others and charming those around me. My presence is always felt at any gathering."
-	custom_text = "Incompatible with Ugly virtue. Grants empathic insight."
-	added_traits = list(TRAIT_BEAUTIFUL, TRAIT_GOODLOVER, TRAIT_EMPATH)
-
-/datum/virtue/utility/socialite/handle_traits(mob/living/carbon/human/recipient)
-	..()
-	if(HAS_TRAIT(recipient, TRAIT_UNSEEMLY))
-		to_chat(recipient, "Your social grace is cancelled out! You become normal.")
-		REMOVE_TRAIT(recipient, TRAIT_BEAUTIFUL, TRAIT_VIRTUE)
-		REMOVE_TRAIT(recipient, TRAIT_UNSEEMLY, TRAIT_VIRTUE)
+	custom_text = "Grants empathic insight."
+	added_traits = list(TRAIT_GOODLOVER, TRAIT_EMPATH)
 
 /datum/virtue/utility/beautiful
 	name = "Beautiful"
@@ -171,10 +164,10 @@
 	name = "Deathless"
 	desc = "Some fell magick has rendered me inwardly unliving - I do not hunger, and I do not breathe."
 	added_traits = list(TRAIT_NOHUNGER, TRAIT_NOBREATH)
-
-/*/datum/virtue/utility/deathless/apply_to_human(mob/living/carbon/human/recipient)
-	recipient.mob_biotypes |= MOB_UNDEAD*/
-
+/*
+/datum/virtue/utility/deathless/apply_to_human(mob/living/carbon/human/recipient)
+	recipient.mob_biotypes |= MOB_UNDEAD
+*/
 /datum/virtue/utility/blacksmith
 	name = "Blacksmith's Apprentice"
 	desc = "In my youth, I worked under a skilled blacksmith, honing my skills with an anvil."
@@ -244,7 +237,7 @@
 	desc = "Music, artistry and the act of showmanship carried me through life. I've hidden a favorite instrument of mine, know how to please anyone I touch, and how to crack the eggs of hecklers."
 	custom_text = "Comes with a stashed instrument of your choice. You choose the instrument after spawning in."
 	added_traits = list(TRAIT_NUTCRACKER, TRAIT_GOODLOVER)
-	added_skills = list(list(/datum/skill/misc/music, 3, 6))
+	added_skills = list(list(/datum/skill/misc/music, 4, 6))
 
 /datum/virtue/utility/performer/apply_to_human(mob/living/carbon/human/recipient)
     addtimer(CALLBACK(src, .proc/performer_apply, recipient), 50)

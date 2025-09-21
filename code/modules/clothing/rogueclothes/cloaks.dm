@@ -819,6 +819,12 @@
 	. = ..()
 	AddComponent(/datum/component/storage/concrete/roguetown/cloak)
 
+/obj/item/clothing/cloak/darkcloak/minotaur
+	name = "minotaur cloak"
+	desc = "Minotaur fur and straw roughly sewn into a long mantle."
+	icon_state = "mino"
+	item_state = "mino"
+
 /obj/item/clothing/cloak/darkcloak/dropped(mob/living/carbon/human/user)
 	..()
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
@@ -1239,6 +1245,9 @@
 		var/list/things = STR.contents()
 		for(var/obj/item/I in things)
 			STR.remove_from_storage(I, get_turf(src))
+
+/obj/item/clothing/cloak/thief_cloak/yoruku
+	color = CLOTHING_BLACK
 
 /obj/item/clothing/cloak/templar
 	var/overarmor = TRUE

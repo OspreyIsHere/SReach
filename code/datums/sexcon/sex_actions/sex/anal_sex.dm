@@ -1,11 +1,13 @@
 /datum/sex_action/anal_sex
 	name = "Sodomize them"
 	stamina_cost = 1.0
+	user_sex_part = SEX_PART_COCK
+	target_sex_part = SEX_PART_ANUS
 
 /datum/sex_action/anal_sex/shows_on_menu(mob/living/carbon/human/user, mob/living/carbon/human/target)
 	if(user == target)
 		return FALSE
-	if(!user.getorganslot(ORGAN_SLOT_PENIS))
+	if(!user.getorganslot(ORGAN_SLOT_PENIS) || !target.sexcon.can_zodomize())
 		return FALSE
 	return TRUE
 
@@ -19,7 +21,7 @@
 	if(!user.getorganslot(ORGAN_SLOT_PENIS))
 		return FALSE
 	if(!user.sexcon.can_use_penis())
-		return
+		return FALSE
 	return TRUE
 
 /datum/sex_action/anal_sex/on_start(mob/living/carbon/human/user, mob/living/carbon/human/target)

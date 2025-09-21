@@ -31,7 +31,6 @@
 
 // MEDIUM
 #define ARMOR_INT_CHEST_MEDIUM_STEEL 300
-#define ARMOR_INT_CHEST_MEDIUM_HATANGA 250
 #define ARMOR_INT_CHEST_MEDIUM_IRON 225
 #define ARMOR_INT_CHEST_MEDIUM_SCALE 200 // More coverage, less integrity
 #define ARMOR_INT_CHEST_MEDIUM_DECREPIT 150
@@ -135,12 +134,6 @@
 #define ARMOR_PANTS_CHAIN list("blunt" = 40, "slash" = 100, "stab" = 80, "piercing" = 50, "fire" = 0, "acid" = 0)
 #define ARMOR_PANTS_BRIGANDINE list("blunt" = 40, "slash" = 70, "stab" = 70, "piercing" = 50, "fire" = 0, "acid" = 0)
 
-// Weapon Armors (Yeah, we have this)
-#define ARMOR_SHIELD list("blunt" = 50, "slash" = 25, "stab" = 0, "piercing" = 0)
-#define ARMOR_GREATSWORD list("blunt" = 20, "slash" = 50, "stab" = 50, "piercing" = 0)
-#define ARMOR_BROADSWORD list("blunt" = 40, "slash" = 50, "stab" = 50, "piercing" = 0)
-#define ARMOR_SWORD list("blunt" = 60, "slash" = 50, "stab" = 50, "piercing" = 0)
-
 //Antag / Special / Unique armor defines
 #define ARMOR_VAMP list("blunt" = 80, "slash" = 200, "stab" = 100, "piercing" = 80, "fire" = 80, "acid" = 0) // vulnerable to blunt and piercing attacks
 #define ARMOR_WWOLF list("blunt" = 100, "slash" = 90, "stab" = 80, "piercing" = 70, "fire" = 40, "acid" = 0)
@@ -215,6 +208,9 @@
 	/datum/species/golem/metal,\
 	/datum/species/golem/porcelain,\
 
+#define RACES_WILDKIN \
+	/datum/species/anthromorph,\
+
 #define RACES_SECOND_CLASS \
     /datum/species/vulpkanin,\
     /datum/species/lupian,\
@@ -241,6 +237,8 @@
 #define RACES_NOBILITY_ELIGIBLE_UP list(RACES_NOBILITY_ELIGIBLE)
 
 #define RACES_CHURCH_FAVORED_UP list(RACES_NOBILITY_ELIGIBLE, RACES_CHURCH_FAVORED)
+
+#define RACES_CHURCH_FAVORED_UP_PLUS_WILDKIN list(RACES_NOBILITY_ELIGIBLE, RACES_CHURCH_FAVORED, RACES_WILDKIN)
 
 #define RACES_APPOINTED_OUTCASTS_UP list(RACES_NOBILITY_ELIGIBLE, RACES_CHURCH_FAVORED, RACES_APPOINTED_OUTCASTS)
 
@@ -403,7 +401,6 @@ GLOBAL_LIST_EMPTY(accused)
 GLOBAL_LIST_EMPTY(confessors)
 
 
-GLOBAL_LIST_EMPTY(sunlights)
 GLOBAL_LIST_EMPTY(head_bounties)
 GLOBAL_LIST_EMPTY(board_viewers)
 GLOBAL_LIST_EMPTY(noticeboard_posts)
@@ -436,6 +433,7 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_VAGABOND		"CAT_VAGABOND"		// Vagabond class - start with nothing and work your way up
 #define CTAG_INQUISITION	"CAT_INQUISITION"	// For Orthodoxist subclasses
 #define CTAG_PURITAN		"CAT_PURITAN"		// For Inquisitor subclasses
+#define CTAG_ABSOLVER		"CAT_ABSOLVER"		// For Absolver (sub)class
 #define CTAG_COURTAGENT		"CAT_COURTAGENT"	// Court agent classes
 #define CTAG_WRETCH			"CAT_WRETCH"		// Wretch classes untethered from adventurer
 #define CTAG_LSKELETON		"CAT_LSKELETON"		// Lich Fortified Skeleton classes
@@ -459,10 +457,65 @@ GLOBAL_LIST_EMPTY(round_join_times)
 #define CTAG_SERVANT		"CAT_SERVANT"		// Servant's aesthetic choices.
 #define CTAG_CAPTAIN		"CAT_CAPTAIN"		// Handles Captain class selector
 #define CTAG_WAPPRENTICE	"CTAG_WAPPRENTICE"	// Mage Apprentice Classes - Handles Mage Apprentices class selector
-#define CTAG_GUILDSMASTER 	"CAT_GUILDSMASTER"	// Guildsmaster class - Handles Guildsmaster class selector
+#define CTAG_GUILDMASTER 	"CAT_GUILDMASTER"	// Guildmaster class - Handles Guildmaster class selector
 #define CTAG_GUILDSMEN 		"CAT_GUILDSMEN"		// Guildsmen class - Handles Guildsmen class selector
 #define CTAG_NIGHTMAIDEN	"CAT_NIGHTMAIDEN"	// Bathhouse Attendant's aesthetic choices.
 #define CTAG_PRISONER "CAT_PRISONER"
+
+// List of mono-class categories. Only here for standardisation sake, but can be added on if desired.
+#define CTAG_DUNGEONEER		"CAT_DUNGEONEER"
+
+#define CTAG_BISHOP			"CAT_BISHOP"
+#define CTAG_MARTYR			"CAT_MARTYR"
+#define CTAG_ACOLYTE		"CAT_ACOLYTE"
+#define CTAG_CHURCHLING		"CAT_CHURCHLING"
+#define CTAG_DRUID			"CAT_DRUID"
+
+#define CTAG_STEWARD		"CAT_STEWARD"
+#define CTAG_CLERK			"CAT_CLERK"
+#define CTAG_COUNCILLOR		"CAT_COUNCIL"
+
+#define CTAG_COURTMAGE		"CAT_COURTMAGE"
+
+#define CTAG_COURTPHYS		"CAT_COURTPHYS"
+#define CTAG_APOTH			"CAT_APOTH"
+
+#define CTAG_MERCH			"CAT_MERCH"
+#define CTAG_SHOPHAND		"CAT_SHOPHAND"
+#define CTAG_ARCHIVIST		"CAT_ARCHIVIST"
+#define CTAG_LOUDMOUTH		"CAT_LOUDMOUTH"
+#define CTAG_TAILOR			"CAT_TAILOR"
+#define CTAG_SOILBRIDE		"CAT_SOILBRIDE"
+#define CTAG_INNKEEPER		"CAT_INNKEEPER"
+#define CTAG_COOK			"CAT_COOK"
+#define CTAG_BATHMOM		"CAT_BATHMOM"
+#define CTAG_TAPSTER		"CAT_TAPSTER"
+#define CTAG_LUNATIC		"CAT_LUNATIC"
+
+/*
+	Defines for class select categories
+*/
+
+//Adventurer categories
+#define CLASS_CAT_NOBLE	"Noble"
+#define CLASS_CAT_CLERIC "Cleric"
+#define CLASS_CAT_ROGUE	"Rogue"
+#define CLASS_CAT_RANGER "Ranger"
+#define CLASS_CAT_MAGE "Mage"
+#define CLASS_CAT_WARRIOR "Warrior"
+#define CLASS_CAT_TRADER "Trader"
+#define CLASS_CAT_NOMAD "Nomad"
+
+//Mercenary categories
+#define CLASS_CAT_ETRUSCA "Etrusca"
+#define CLASS_CAT_GRENZELHOFT "Grenzelhoft"
+#define CLASS_CAT_NALEDI "Naledi"
+#define CLASS_CAT_RANESHENI "Ranesheni"
+#define CLASS_CAT_AAVNR "Aavnr"
+#define CLASS_CAT_GRONN "Gronn"
+#define CLASS_CAT_OTAVA "Otava"
+#define CLASS_CAT_KAZENGUN "Kazengun"
+#define CLASS_CAT_RACIAL "Race Exclusive" //Used for black oaks, grudgebearer dwarves, etc.
 
 /*
 	Defines for the triumph buy datum categories

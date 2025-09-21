@@ -58,7 +58,6 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/preferred_map = null
 	var/pda_style = MONO
 	var/pda_color = "#808000"
-	var/prefer_old_chat = FALSE
 
 	var/uses_glasses_colour = 0
 
@@ -191,8 +190,9 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	var/ooc_notes
 	var/ooc_notes_display
 
-	//var/taur_type = null
+	var/tail_type = /obj/item/bodypart/lamian_tail/lamian_tail
 	var/tail_color = "ffffff"
+	var/tail_markings_color = "ffffff"
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -255,7 +255,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	reset_all_customizer_accessory_colors()
 	randomize_all_customizer_accessories()
 	reset_descriptors()
-//	taur_type = null
+	tail_type = /obj/item/bodypart/lamian_tail/lamian_tail
 
 #define APPEARANCE_CATEGORY_COLUMN "<td valign='top' width='14%'>"
 #define MAX_MUTANT_ROWS 4
@@ -385,12 +385,12 @@ GLOBAL_LIST_EMPTY(chosen_names)
 					dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_GENDER]'>Always Random Bodytype: [(randomise[RANDOM_GENDER]) ? "Yes" : "No"]</A>"
 					dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_GENDER_ANTAG]'>When Antagonist: [(randomise[RANDOM_GENDER_ANTAG]) ? "Yes" : "No"]</A>"
 
-			//if(LAZYLEN(pref_species.allowed_taur_types))
 			if((LAMIAN_TAIL in pref_species.species_traits))
-				//var/obj/item/bodypart/taur/T = taur_type
-				//var/name = ispath(T) ? T::name : "None"
-				//dat += "<b>Taur Body Type:</b> <a href='?_src_=prefs;preference=taur_type;task=input'>[name]</a><BR>"
+				var/obj/item/bodypart/lamian_tail/T = tail_type
+				var/name = ispath(T) ? T::name : "None"
+				dat += "<b>Tail Type:</b> <a href='?_src_=prefs;preference=tail_type;task=input'>[name]</a><BR>"
 				dat += "<b>Tail Color:</b><span style='border: 1px solid #161616; background-color: #[tail_color];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=tail_color;task=input'>Change</a><BR>"
+				dat += "<b>Marking Color:</b><span style='border: 1px solid #161616; background-color: #[tail_markings_color];'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=tail_markings_color;task=input'>Change</a><BR>"
 
 			// LETHALSTONE EDIT BEGIN: add voice type prefs
 			dat += "<b>Voice Type</b>: <a href='?_src_=prefs;preference=voicetype;task=input'>[voice_type]</a><BR>"
@@ -451,10 +451,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<b>Update feature colors with change:</b> <a href='?_src_=prefs;preference=update_mutant_colors;task=input'>[update_mutant_colors ? "Yes" : "No"]</a><BR>"
 			var/use_skintones = pref_species.use_skintones
 			if(use_skintones && !(LAMIAN_TAIL in pref_species.species_traits))
-
-				var/skin_tone_wording = pref_species.skin_tone_wording // Both the skintone names and the word swap here is useless fluff
-
-				dat += "<b>[skin_tone_wording]: </b><a href='?_src_=prefs;preference=s_tone;task=input'>Change </a>"
+				if(pref_species.id != "lupian")
+					dat += "<b>[pref_species.skin_tone_wording]: </b><a href='?_src_=prefs;preference=skin_color_ref_list;task=input'>(?)</a> <a href='?_src_=prefs;preference=s_tone;task=input'>Change</a>"
+				else
+					dat += "<b>[pref_species.skin_tone_wording]: </b><a href='?_src_=prefs;preference=s_tone;task=input'>Change</a>"
 				dat += "<br>"
 
 			if((MUTCOLORS in pref_species.species_traits) && !(LAMIAN_TAIL in pref_species.species_traits) || (MUTCOLORS_PARTSONLY in pref_species.species_traits) && !(LAMIAN_TAIL in pref_species.species_traits))
@@ -522,7 +522,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			dat += "<table><tr><td width='340px' height='300px' valign='top'>"
 			dat += "<h2>General Settings</h2>"
 //			dat += "<b>UI Style:</b> <a href='?_src_=prefs;task=input;preference=ui'>[UI_style]</a><br>"
-//			dat += "<b>tgui Monitors:</b> <a href='?_src_=prefs;preference=tgui_lock'>[(tgui_lock) ? "Primary" : "All"]</a><br>"
+			dat += "<b>tgui Monitors:</b> <a href='?_src_=prefs;preference=tgui_lock'>[(tgui_lock) ? "Primary" : "All"]</a><br>"
 //			dat += "<b>tgui Style:</b> <a href='?_src_=prefs;preference=tgui_fancy'>[(tgui_fancy) ? "Fancy" : "No Frills"]</a><br>"
 //			dat += "<b>Show Runechat Chat Bubbles:</b> <a href='?_src_=prefs;preference=chat_on_map'>[chat_on_map ? "Enabled" : "Disabled"]</a><br>"
 //			dat += "<b>Runechat message char limit:</b> <a href='?_src_=prefs;preference=max_chat_length;task=input'>[max_chat_length]</a><br>"
@@ -848,9 +848,10 @@ GLOBAL_LIST_EMPTY(chosen_names)
 	else
 //		HTML += "<b>Choose class preferences</b><br>"
 //		HTML += "<div align='center'>Left-click to raise a class preference, right-click to lower it.<br></div>"
-		HTML += "<center><a href='?_src_=prefs;preference=job;task=close'>Done</a></center><br>" // Easier to press up here.
+		HTML += "<center><a href='?_src_=prefs;preference=job;task=close'>Done</a></center>" // Easier to press up here.
 		if(joblessrole != RETURNTOLOBBY && joblessrole != BERANDOMJOB) // this is to catch those that used the previous definition and reset.
 			joblessrole = RETURNTOLOBBY
+		HTML += "<i>Click on an unlocked Class to get more information</i><br>"
 		HTML += "<b>If Role Unavailable:</b><font color='purple'><a href='?_src_=prefs;preference=job;task=nojob'>[joblessrole]</a></font><BR>"
 		HTML += "<script type='text/javascript'>function setJobPrefRedirect(level, rank) { window.location.href='?_src_=prefs;preference=job;task=setJobLevel;level=' + level + ';text=' + encodeURIComponent(rank); return false; }</script>"
 		HTML += "<table width='100%' cellpadding='1' cellspacing='0'><tr><td width='20%'>" // Table within a table for alignment, also allows you to easily add more colomns.
@@ -947,6 +948,8 @@ GLOBAL_LIST_EMPTY(chosen_names)
 			if(!(job_unavailable in acceptable_unavailables))
 				HTML += "<font color=#a36c63>[used_name]</font></td> <td> </td></tr>"
 				continue
+
+			var/job_display = used_name
 //			if((job_preferences[SSjob.overflow_role] == JP_LOW) && (rank != SSjob.overflow_role) && !is_banned_from(user.ckey, SSjob.overflow_role))
 //				HTML += "<font color=orange>[rank]</font></td><td></td></tr>"
 //				continue
@@ -989,7 +992,7 @@ GLOBAL_LIST_EMPTY(chosen_names)
 
 </style>
 
-<div class="tutorialhover"><font>[used_name]</font>
+<div class="tutorialhover"> [job.class_setup_examine ? "<a href='?src=[REF(job)];explainjob=1'><font>[job_display]</font></a>" : "<font>[job_display]</font>"]</span>
 <span class="tutorial">[job.tutorial]<br>
 Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contrib_points]" : ""]</span>
 </div>
@@ -1560,28 +1563,25 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 						voice_type = voicetype_input
 						to_chat(user, "<font color='red'>Your character will now vocalize with a [lowertext(voice_type)] affect.</font>")
 
-//				if("taur_type")
-//					var/list/species_taur_list = pref_species.get_taur_list()
-//					if(!LAZYLEN(species_taur_list))
-//						taur_type = null
-//						to_chat(user, span_bad("There are no available taur bodies for this species."))
-//						return
-//
-//					var/list/taur_selection = list("None")
-//					for(var/obj/item/bodypart/taur/tt as anything in pref_species.get_taur_list())
-//						taur_selection[tt::name] = tt
-//
-//					var/new_taur_type = input(user, "Choose your character's taur body", "Taur Body") as null|anything in taur_selection
-//					if(!new_taur_type)
-//						return
-//
-//					if(new_taur_type == "None")
-//						taur_type = null
-//					else
-//						taur_type = taur_selection[new_taur_type]
-//
-//					var/obj/item/bodypart/taur/tt = taur_type
-//					to_chat(user, span_red("Your character now has [tt ? tt::name : "no taurtype."]."))
+				if("tail_type")
+					var/list/species_tail_list = pref_species.get_tail_list()
+					if(!LAZYLEN(species_tail_list))
+						tail_type = /obj/item/bodypart/lamian_tail/lamian_tail
+						to_chat(user, span_bad("There are no available tail types for this species."))
+						return
+
+					var/list/tail_selection = list()
+					for(var/obj/item/bodypart/lamian_tail/tt as anything in pref_species.get_tail_list())
+						tail_selection[tt::name] = tt
+
+					var/new_tail_type = input(user, "Choose your character's tail type", "Tail Type") as null|anything in tail_selection
+					if(!new_tail_type)
+						return
+
+					tail_type = tail_selection[new_tail_type]
+
+					var/obj/item/bodypart/lamian_tail/tt = tail_type
+					to_chat(user, span_red("Your character now has [tt ? tt::name : "no tailtype."]."))
 
 				if("faith")
 					var/list/faiths_named = list()
@@ -1740,7 +1740,7 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					dat += "<br>"
 					for(var/tone in pref_species.get_skin_list_tooltip()) 
 						dat += "[tone]<br>"
-					var/datum/browser/popup = new(user, "Formatting Help", nwidth = 400, nheight = 450)
+					var/datum/browser/popup = new(user, "Formatting Help", nwidth = 300, nheight = 500)
 					popup.set_content(dat.Join())
 					popup.open(FALSE)
 				if("flavortext")
@@ -2035,6 +2035,11 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 					var/new_tail_color = color_pick_sanitized(user, "Choose your character's tail color:", "Character Preference", "#"+tail_color)
 					if(new_tail_color)
 						tail_color = sanitize_hexcolor(new_tail_color)
+
+				if("tail_markings_color")
+					var/new_tail_markings_color = color_pick_sanitized(user, "Choose your character's tail markings color:", "Character Preference", "#"+tail_markings_color)
+					if(new_tail_markings_color)
+						tail_markings_color = sanitize_hexcolor(new_tail_markings_color)
 
 				if("mutant_color")
 					var/new_mutantcolor = color_pick_sanitized(user, "Choose your character's mutant #1 color:", "Character Preference","#"+features["mcolor"])
@@ -2591,14 +2596,8 @@ Slots: [job.spawn_positions] [job.round_contrib_points ? "RCP: +[job.round_contr
 			for(var/X in L)
 				ADD_TRAIT(character, curse2trait(X), TRAIT_GENERIC)
 
-//	if(taur_type)
-//		character.Taurize(taur_type, "#[taur_color]")
-//	else if(character_setup)
-//		// This should only ever ~do~ anything for previews
-//		character.ensure_not_taur()
-
 	if((LAMIAN_TAIL in pref_species.species_traits))
-		character.Lamiaze(/obj/item/bodypart/lamian_tail, "#[tail_color]")
+		character.Lamiaze(tail_type, "#[tail_color]", "#[tail_markings_color]")
 	else if(character_setup)
 		// This should only ever ~do~ anything for previews
 		character.ensure_not_lamia()

@@ -73,6 +73,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/body_parts_covered = 0 //see setup.dm for appropriate bit flags
 	var/body_parts_covered_dynamic = 0
 	var/body_parts_inherent	= 0 //bodypart coverage areas you cannot peel off because it wouldn't make any sense (peeling chest off of torso armor, hands off of gloves, head off of helmets, etc)
+	var/surgery_cover = TRUE // binary, whether this item is considered covering its bodyparts in respect to surgery. Tattoos, etc. are false. 
 	var/gas_transfer_coefficient = 1 // for leaking gas from turf to mask and vice-versa (for masks right now, but at some point, i'd like to include space helmets)
 	var/permeability_coefficient = 1 // for chemicals/diseases
 	var/siemens_coefficient = 1 // for electrical admittance/conductance (electrocution checks and shit)
@@ -80,6 +81,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/armor_penetration = 0 //percentage of armour effectiveness to remove
 	var/list/allowed = null //suit storage stuff.
 	var/equip_delay_self = 1 //In deciseconds, how long an item takes to equip; counts only for normal clothing slots, not pockets etc.
+	var/unequip_delay_self = 1 //In deciseconds, how long an item takes to unequip; counts only for normal clothing slots, not pockets etc.
+	var/inv_storage_delay = 0 //In deciseconds, how long an item takes to store in/pull out of a mob storage item (like, bags).
 	var/edelay_type = 1 //if 1, can be moving while equipping (for helmets etc)
 	var/equip_delay_other = 20 //In deciseconds, how long an item takes to put on another person
 	var/strip_delay = 40 //In deciseconds, how long an item takes to remove from another person
@@ -374,12 +377,15 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		AddComponent(/datum/component/butchering, 80 * toolspeed)
 
 	if(max_blade_int)
-		//set blade integrity to randomized 60% to 100% if not already set
-		if(!blade_int)
-			blade_int = max_blade_int + rand(-(max_blade_int * 0.4), 0)
-		//set dismemberment integrity to max_blade_int if not already set
-		if(!dismember_blade_int)
-			dismember_blade_int = max_blade_int
+		if(randomize_blade_int_on_init)
+			//set blade integrity to randomized 60% to 100% if not already set
+			if(!blade_int)
+				blade_int = max_blade_int + rand(-(max_blade_int * 0.4), 0)
+			//set dismemberment integrity to max_blade_int if not already set
+			if(!dismember_blade_int)
+				dismember_blade_int = max_blade_int
+		else
+			blade_int = max_blade_int
 
 /obj/item/Destroy()
 	item_flags &= ~DROPDEL	//prevent reqdels
@@ -481,13 +487,13 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 		if(max_blade_int)
 			inspec += "\n<b>SHARPNESS:</b> "
-			var/meme = round(((blade_int / max_blade_int) * 100), 1)
-			inspec += "[meme]%"
+			var/percent = round(((blade_int / max_blade_int) * 100), 1)
+			inspec += "[percent]% ([blade_int])"
 
 		if(associated_skill && associated_skill.name)
 			inspec += "\n<b>SKILL:</b> [associated_skill.name]"
 		
-		if(intdamage_factor)
+		if(intdamage_factor != 1 && force >= 5)
 			inspec += "\n<b>INTEGRITY DAMAGE:</b> [intdamage_factor * 100]%"
 
 //**** CLOTHING STUFF
@@ -625,6 +631,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 
 
 	//If the item is in a storage item, take it out
+	if(inv_storage_delay && SEND_SIGNAL(loc, COMSIG_CONTAINS_STORAGE))
+		if(!move_after(user, inv_storage_delay, target = iscarbon(loc) ? src : src.loc, progress = TRUE))
+			return
 	SEND_SIGNAL(loc, COMSIG_TRY_STORAGE_TAKE, src, user.loc, TRUE)
 	if(QDELETED(src)) //moving it out of the storage to the floor destroyed it.
 		return
@@ -1104,7 +1113,6 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 /obj/item/MouseExited()
 	. = ..()
 	deltimer(tip_timer)//delete any in-progress timer if the mouse is moved off the item before it finishes
-	closeToolTip(usr)
 
 
 // Called when a mob tries to use the item as a tool.
