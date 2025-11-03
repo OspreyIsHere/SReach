@@ -41,16 +41,16 @@
 	..()
 	if(H.mind)
 
-		shoes = /obj/item/clothing/shoes/roguetown/boots/armor/dwarven/capt
+		shoes = /obj/item/clothing/shoes/roguetown/boots/armor/dwarvencapt
 		cloak = /obj/item/clothing/cloak/forrestercloak/snow
 		belt = /obj/item/storage/belt/rogue/leather/steel/tasset
 		beltl = /obj/item/flashlight/flare/torch
 		backl = /obj/item/storage/backpack/rogue/satchel
 		shirt = /obj/item/clothing/suit/roguetown/shirt/undershirt/black
-		gloves = /obj/item/clothing/gloves/roguetown/plate/dwarven/capt
+		gloves = /obj/item/clothing/gloves/roguetown/plate/dwarvencapt
 		pants = /obj/item/clothing/under/roguetown/trou/leather
-		armor = /obj/item/clothing/suit/roguetown/armor/plate/full/dwarven/capt
-		head = /obj/item/clothing/head/roguetown/helmet/heavy/dwarven/capt
+		armor = /obj/item/clothing/suit/roguetown/armor/plate/full/dwarvencapt
+		head = /obj/item/clothing/head/roguetown/helmet/heavy/dwarvencapt
 		mask = /obj/item/clothing/head/roguetown/paddedcap
 		backpack_contents = list(
 			/obj/item/roguekey/mercenary,
