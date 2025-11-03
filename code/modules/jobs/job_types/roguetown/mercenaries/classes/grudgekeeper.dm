@@ -58,7 +58,7 @@
 			/obj/item/paper/scroll/grudge/grand,
 			/obj/item/natural/feather,
 			)
-		var/weapons = list("Warhammer + Dwarven Shield", "Great Axe + Dwarven Shield", "Battle Axe", "Grandmace")
+		var/weapons = list("Warpick + Dwarven Shield", "Warhammer + Dwarven Shield", "Battle Axe + Dwarven Shield", "Great Axe", "Grandmace")
 		var/wepchoice = input("Choose your weapon", "Available weapons") as anything in weapons
 		switch(wepchoice)
 
@@ -70,11 +70,11 @@
 				backr = /obj/item/rogueweapon/shield/tower/metal/dwarf
 				r_hand = /obj/item/rogueweapon/stoneaxe/battle
 				H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
-			if("Great Axe + Dwarven Shield")
+			if("Battle Axe + Dwarven Shield")
 				backr = /obj/item/rogueweapon/shield/tower/metal/dwarf
 				r_hand = /obj/item/rogueweapon/stoneaxe/battle
 				H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
-			if("Battle Axe") //No special shield, however gains flexibility in polearms for upgrades.
+			if("Great Axe") //No special shield, however gains flexibility in polearms for upgrades.
 				r_hand = /obj/item/rogueweapon/greataxe/steel
 				H.adjust_skillrank(/datum/skill/combat/axes, 1, TRUE)
 				H.adjust_skillrank(/datum/skill/combat/polearms, 1, TRUE)
