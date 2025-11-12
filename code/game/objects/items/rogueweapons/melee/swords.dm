@@ -59,11 +59,11 @@
 	blade_class = BCLASS_PEEL
 	hitsound = list('sound/combat/hits/blunt/metalblunt (1).ogg', 'sound/combat/hits/blunt/metalblunt (2).ogg', 'sound/combat/hits/blunt/metalblunt (3).ogg')
 	chargetime = 0
-	penfactor = BLUNT_DEFAULT_PENFACTOR
+	penfactor = 200
 	swingdelay = 0
-	damfactor = 0.01
+	damfactor = 0.05
 	item_d_type = "slash"
-	peel_divisor = 5
+	peel_divisor = 4
 
 /datum/intent/sword/peel/big
 	name = "big sword armor peel"

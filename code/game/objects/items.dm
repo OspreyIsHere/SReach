@@ -1412,11 +1412,8 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 		var/peel_goal = peel_threshold
 		if(divisor > peel_goal)
 			peel_goal = divisor
-
+			
 		var/list/peeledpart = body_parts_covered2organ_names(coveragezone, precise = TRUE)
-
-		if(peel_count < peel_goal)
-			peel_count++
 
 		if(peel_count >= peel_goal)
 			body_parts_covered_dynamic &= ~coveragezone
@@ -1440,6 +1437,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 				if(prob(10))
 					balloon_msg = "<i>Guarded...</i>"
 					filtered_balloon_alert(TRAIT_COMBAT_AWARE, balloon_msg)
+	else
+		last_peeled_limb = coveragezone
+		reset_peel()
 
 /obj/item/proc/repair_coverage()
 	body_parts_covered_dynamic = body_parts_covered
