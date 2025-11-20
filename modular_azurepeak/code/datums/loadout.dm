@@ -124,6 +124,11 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "Papakha"
 	path = /obj/item/clothing/head/roguetown/papakha
 
+/datum/loadout_item/deserthood
+	name = "Desert Hood"
+	path = /obj/item/clothing/head/roguetown/deserthood
+
+
 //CLOAKS
 /datum/loadout_item/tabard
 	name = "Tabard"
@@ -451,6 +456,11 @@ GLOBAL_LIST_EMPTY(loadout_items)
 	name = "White Foreign Shirt"
 	path = /obj/item/clothing/suit/roguetown/shirt/undershirt/eastshirt2
 
+/datum/loadout_item/desertbra
+	name = "Desert Bra"
+	path = /obj/item/clothing/suit/roguetown/shirt/desertbra
+
+
 //PANTS
 /datum/loadout_item/tights
 	name = "Cloth Tights"
@@ -483,6 +493,11 @@ GLOBAL_LIST_EMPTY(loadout_items)
 /datum/loadout_item/skirt
 	name = "Skirt"
 	path = /obj/item/clothing/under/roguetown/skirt
+
+/datum/loadout_item/desertskirt
+	name = "Desert Skirt"
+	path = /obj/item/clothing/under/roguetown/skirt/desert
+
 
 //ACCESSORIES
 /datum/loadout_item/wrappings
