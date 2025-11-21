@@ -12,6 +12,7 @@
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	recharge_time = 5 MINUTES
+	miracle = TRUE
 
 /obj/effect/proc_holder/spell/invoked/wheel/cast(list/targets, mob/user = usr)
 	if(isliving(targets[1]))
@@ -36,6 +37,7 @@
 	associated_skill = /datum/skill/magic/holy
 	antimagic_allowed = TRUE
 	recharge_time = 30 SECONDS
+	miracle = TRUE
 	var/firstcast = TRUE
 	var/icon/clone_icon
 
@@ -68,13 +70,13 @@
 	defprob = 50
 	footstep_type = FOOTSTEP_MOB_BAREFOOT
 	del_on_death = TRUE
-	loot = list(/obj/item/smokebomb/decoy)
+	loot = list(/obj/item/bomb/smoke/decoy)
 	can_have_ai = FALSE
 	AIStatus = AI_OFF
 	ai_controller = /datum/ai_controller/mudcrab // doesnt really matter
 
 
-/obj/item/smokebomb/decoy/Initialize()
+/obj/item/bomb/smoke/decoy/Initialize()
 	. = ..()
 	playsound(loc, 'sound/magic/decoylaugh.ogg', 50)
 	explode()
@@ -93,6 +95,7 @@
 	associated_skill = /datum/skill/misc/music
 	recharge_time = 2 MINUTES
 	range = 7
+	miracle = TRUE
 
 /obj/effect/proc_holder/spell/invoked/mockery/cast(list/targets, mob/user = usr)
 	playsound(get_turf(user), 'sound/magic/mockery.ogg', 40, FALSE)
