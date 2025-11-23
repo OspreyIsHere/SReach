@@ -197,7 +197,7 @@
 	skills?.known_skills = WA.stored_skills.Copy()
 	skills?.skill_experience = WA.stored_experience.Copy()
 
-	W.RemoveSpell(new /obj/effect/proc_holder/spell/self/howl/call_of_the_moon)
+	W.RemoveSpell(new /obj/effect/proc_holder/spell/self/howl)
 	W.RemoveSpell(new /obj/effect/proc_holder/spell/self/claws)
 
 	W.regenerate_icons()
