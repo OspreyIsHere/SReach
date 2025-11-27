@@ -25,6 +25,7 @@
 		if(HAS_TRAIT(user, TRAIT_CULTIC_THIEF)) // Matthios blesses his devout with rolling advantage on thieving checks.
 			advantageroll = roll("1d6") + (thiefskill * 2) + (user.STASPD / 3)
 		
+		// Used for showing fail chance.
 		var/chance2steal = max(round(((6 + (thiefskill * 2) + (user.STASPD / 3) - (targetperception)) / 6 ) * 100, 1), 0)
 
 		//Mathematically:
