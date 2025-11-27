@@ -15,7 +15,7 @@
 		var/mob/living/carbon/human/target_human = target
 
 		var/thiefskill = user.get_skill_level(/datum/skill/misc/stealing) + (has_world_trait(/datum/world_trait/matthios_fingers) ? 1 : 0)
-		var/initialstealroll = roll("d6") + thiefskill + (user.STASPD / 2)
+		var/initialstealroll = roll("1d6") + (thiefskill * 2) + (user.STASPD / 2)
 		var/advantageroll = 0
 		var/targetperception = (target_human.STAPER)
 
@@ -23,9 +23,9 @@
 			targetperception += 1 // Target is alert
 
 		if(HAS_TRAIT(user, TRAIT_CULTIC_THIEF)) // Matthios blesses his devout with rolling advantage on thieving checks.
-			advantageroll = roll("d6") + thiefskill + (user.STASPD / 2)
+			advantageroll = roll("1d6") + (thiefskill * 2) + (user.STASPD / 2)
 		
-		var/chance2steal = round(((6 + thiefskill + (user.STASPD / 2) - (target_human.STAPER)) / 6 ) * 100, 1)
+		var/chance2steal = round(((6 + (thiefskill * 2) + (user.STASPD / 2) - (target_human.STAPER)) / 6 ) * 100, 1)
 
 		var/stealroll = max(initialstealroll, advantageroll)
 
