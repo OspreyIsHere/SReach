@@ -220,6 +220,7 @@
 /datum/status_effect/debuff/vamp_dreams
 	id = "sleepytime"
 	alert_type = /atom/movable/screen/alert/status_effect/debuff/vamp_dreams
+	needs_processing = FALSE
 
 /atom/movable/screen/alert/status_effect/debuff/vamp_dreams
 	name = "Insight"
