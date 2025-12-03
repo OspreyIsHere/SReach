@@ -145,6 +145,12 @@
 	return ..()
 
 /obj/effect/proc_holder/spell/targeted/shapeshift/witch/Restore(mob/living/shape)
+	// Check if restrained before allowing revert
+	if(shape.restrained(ignore_grab = FALSE))
+		to_chat(shape, span_warn("I am restrained, I can't transform back!"))
+		revert_cast(shape)  // Refund the cooldown
+		return
+	
 	// Add do-after for witches when reverting
 	shape.visible_message(span_warning("[shape] begins to shift back!"), span_notice("I begin to transform..."))
 	if(!do_after(shape, 5 SECONDS, target = shape))

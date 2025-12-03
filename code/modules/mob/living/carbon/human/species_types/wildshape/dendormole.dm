@@ -26,10 +26,11 @@
 		src.adjust_skillrank(/datum/skill/misc/tracking, 4, TRUE) //'Tracker' transformation
 		src.adjust_skillrank(/datum/skill/misc/sneaking, 3, TRUE) //Stalking
 //Give it miracles maybe as well if needed, but this boi is already good
-		src.STASTR = 13
+		src.STASTR = 14
 		src.STACON = 14
 		src.STAPER = 12
-		src.STASPD = 8
+		src.STASPD = 7
+		update_move_intent_slowdown() // Apply speed changes
 
 		AddSpell(new /obj/effect/proc_holder/spell/self/moleclaw)
 		// Set name once on transformation, not every time
